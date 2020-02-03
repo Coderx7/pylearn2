@@ -147,11 +147,12 @@ class BaseActs(GpuOp):
         return hash(tuple(msg))
 
     # Make sure the cuda_convnet library is compiled and up-to-date
-    def make_thunk(self, *args, **kwargs):
+    def make_thunk(self, node, storage_map, compute_map, no_recycling):
         if not convnet_available():
             raise RuntimeError('Could not compile cuda_convnet')
 
-        return super(BaseActs, self).make_thunk(*args, **kwargs)
+        return super(BaseActs, self).make_thunk(node, storage_map,
+                                                compute_map, no_recycling)
 
 # This is needed as otherwise DebugMode will consider that
 # BaseActs.make_thunk do something else then the default code, and
